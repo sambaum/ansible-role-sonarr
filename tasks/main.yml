@@ -1,0 +1,40 @@
+---
+# tasks file for ansible-role-sonarr
+
+- name: Adding key EBFF6B99D9B78493
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: EBFF6B99D9B78493
+
+- name: Adding repository http://apt.sonarr.tv/
+  apt_repository:
+    repo: deb http://apt.sonarr.tv/ master main
+    state: present
+
+- name: Installing packages 
+  package:
+     name: "{{ item }}"
+     state: present
+  with_items:
+     - nzbdrone
+
+- name: Add user "{{sonarr_user}}"
+  user:
+    name: "{{sonarr_user}}"
+
+- name: Configuring Autostart 
+  template:
+    src: templates/sonarr.service.j2
+    dest: /etc/systemd/system/sonarr.service
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Enable Service
+  systemd:
+    name: sonarr
+    enabled: yes
+    masked: no
+
+- name: Start Sonarr
+  systemd: state=started name=sonarr
