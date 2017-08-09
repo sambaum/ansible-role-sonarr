@@ -1,4 +1,5 @@
 ---
 # defaults file for ansible-role-sonarr
+sonarr_enabled: yes
 sonarr_user: nzbdrone
 sonarr_group: nzbdrone
