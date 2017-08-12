@@ -3,3 +3,10 @@
 sonarr_enabled: yes
 sonarr_user: nzbdrone
 sonarr_group: nzbdrone
+sonarr_apikey: ""
+sonarr_enablessl: False
+sonarr_port: 8989
+sonarr_urlbase: ""
+sonarr_bindaddress: "*"
+sonarr_sslport: 9898
+sonarr_branch: master
