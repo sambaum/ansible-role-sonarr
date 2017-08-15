@@ -30,13 +30,6 @@
     group: root
     mode: 0755
 
-- name: Configuring Sonarr config.xml 
-  template:
-    src: templates/config.xml.j2
-    dest: /home/{{sonarr_user}}/.config/NzbDrone/config.xml
-    owner: "{{sonarr_user}}"
-    group: "{{sonarr_group}}"
-
 - name: Enable Service
   systemd:
     name: sonarr
@@ -45,3 +38,14 @@
 
 - name: Start Sonarr
   systemd: state=started name=sonarr
+
+- name: Ensures /home/{{sonarr_user}}/.config/NzbDrone/ dir exists
+  file: path=/home/{{sonarr_user}}/.config/NzbDrone/ state=directory
+
+- name: Configuring Sonarr config.xml 
+  template:
+    src: templates/config.xml.j2
+    dest: /home/{{sonarr_user}}/.config/NzbDrone/config.xml
+    owner: "{{sonarr_user}}"
+    group: "{{sonarr_group}}"
+  notify: restart sonarr
