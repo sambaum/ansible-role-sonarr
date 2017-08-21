@@ -1,7 +1,7 @@
 ---
 # tasks file for ansible-role-sonarr
 
-- name: Adding key EBFF6B99D9B78493
+- name: Adding key EBFF6B99D9B78493 (sonarr)
   apt_key:
     keyserver: keyserver.ubuntu.com
     id: EBFF6B99D9B78493
@@ -11,11 +11,22 @@
     repo: deb http://apt.sonarr.tv/ master main
     state: present
 
+- name: Adding key 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF (mono)
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+
+- name: Adding repository http://download.mono-project.com/repo/ubuntu
+  apt_repository:
+    repo: "deb http://download.mono-project.com/repo/ubuntu {{ ansible_distribution_release }} main"
+    state: present
+
 - name: Installing packages 
   package:
      name: "{{ item }}"
      state: present
   with_items:
+     - mono-devel
      - nzbdrone
 
 - name: Add user "{{sonarr_user}}"
